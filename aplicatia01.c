@@ -31,7 +31,12 @@ struct Telefon initializare(int id, int ram, const char* producator, float pret,
 // functia de afisare a structurii telefon
 
 void afisare(struct Telefon t) {
-	printf("%d. Telefonul %s seria %c are %d Gb RAM si costa %5.2f RON \n", t.id, t.producator, t.serie, t.RAM, t.pret);
+	if (t.producator != NULL) {
+		printf("%d. Telefonul %s seria %c are %d Gb RAM si costa %5.2f RON \n", t.id, t.producator, t.serie, t.RAM, t.pret);
+	}
+	else {
+		printf("%d. Telefonul din seria %c are %d Gb RAM si costa %5.2f RON \n", t.id, t.serie, t.RAM, t.pret);
+	}
 }
 
 // functia de modificare a unui atribut
@@ -44,6 +49,14 @@ void modificaPret(struct Telefon* t, float pretNou) {
 	}
 }
 
+//functia de dezalocare a campurilor alocate dinamic
+
+void dezalocare(struct Telefon* t) {
+	if (t->producator != NULL) {
+		free(t->producator);
+		t->producator = NULL;
+	}
+}
 int main() {
 	struct Telefon t;
 	t = initializare(1, 256, "Samsung", 2000.5, 'A');
@@ -61,6 +74,9 @@ int main() {
 	modificaPret(&t, 1499.99);
 	afisare(t);
 
+	//testarea functiei de dezalocare a campurilor alocate dinamic
+	dezalocare(&t);
+	afisare(t); // verificam daca se afiseaza null dupa dezalocarea campului alocat dinamic 
 	return 0;
 
 }
