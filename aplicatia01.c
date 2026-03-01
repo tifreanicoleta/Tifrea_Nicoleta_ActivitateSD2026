@@ -34,6 +34,16 @@ void afisare(struct Telefon t) {
 	printf("%d. Telefonul %s seria %c are %d Gb RAM si costa %5.2f RON \n", t.id, t.producator, t.serie, t.RAM, t.pret);
 }
 
+// functia de modificare a unui atribut
+
+void modificaPret(struct Telefon* t, float pretNou) {
+	// verificam inputul
+
+	if (pretNou > 0) {
+		t->pret = pretNou;
+	}
+}
+
 int main() {
 	struct Telefon t;
 	t = initializare(1, 256, "Samsung", 2000.5, 'A');
@@ -45,6 +55,12 @@ int main() {
 
 	afisare(t);
 	afisare(t1);
+
+	//testarea functiei de modificare a pretului
+	
+	modificaPret(&t, 1499.99);
+	afisare(t);
+
 	return 0;
 
 }
