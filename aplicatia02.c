@@ -62,6 +62,8 @@ int main() {
 	afisareContBancar(c);
 
 	struct ContBancar c1;
+	c1 = initializare(2, "Popescu Maria", 1458.25, "RON");
+	afisareContBancar(c1);
 
 
 }
