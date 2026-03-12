@@ -100,6 +100,32 @@ struct Telefon initializare(int id, int ram, const char* producator, float pret,
 			free(*vectorNou);
 		}
 		*vectorNou = (struct Telefon*)malloc(sizeof(struct Telefon) * (*dimensiune));
+		int k = 0;
+		for (int i = 0; i < nrElemente; i++) {
+			if (vector[i].pret >= pretMinim) {
+				// daca avem pointer transmis prin pointer atunci trebuie sa il defrentiem
+				(*vectorNou)[k] = vector[i]; 
+				// facem deep copy pentru campurile alocate dinamic
+				(*vectorNou)[k].producator = (char*)malloc(strlen(vector[i].producator) + 1);
+				strcpy_s((*vectorNou)[k].producator, strlen(vector[i].producator) + 1, vector[i].producator);
+				k++;
+			}
+		}
+	}
+
+	struct Telefon getPrimulTelefonByProducator(struct Telefon* vector, int nrElemente, const char* producator) {
+		struct Telefon t;
+		t.producator = NULL; 
+		for (int i = 0; i < nrElemente; i++) {
+			if (strcmp(vector[i].producator, producator) == 0) {
+				t = vector[i];
+				// facem deep copy pt campurile alocate dinamic si nume pt producator
+				t.producator = (char*)malloc(strlen(vector[i].producator) + 1);
+				strcpy_s(t.producator, strlen(vector[i].producator) + 1, vector[i].producator);
+				return t;
+			}
+		}
+		return t;
 	}
 
 	int main() {
@@ -129,6 +155,28 @@ struct Telefon initializare(int id, int ram, const char* producator, float pret,
 		printf("Apelarea functiei de dezalocare a vectorului de telefoane: \n");
 		dezalocare(&primeleTelefoane, &nrPrimeleTelefoane);
 		afisareVector(primeleTelefoane, nrPrimeleTelefoane);
+
+		printf("\n===========================================================\n");
+		//copiaza telefoane scumpe
+		struct Telefon* telefoaneScumpe = NULL;
+		int nrTelefoaneScumpe = 0;
+		copiazaTelefoaneScumpe(telefoane, nrTelefoane, 2999.99, &telefoaneScumpe, &nrTelefoaneScumpe);
+		printf("\n\n Telefoane scumpe: \n");
+		afisareVector(telefoaneScumpe, nrTelefoaneScumpe);
+		dezalocare(&telefoaneScumpe, &nrTelefoaneScumpe);
+
+		printf("\n===========================================================\n");
+
+		struct Telefon telefon;
+		telefon = getPrimulTelefonByProducator(telefoane, nrTelefoane, "Samsung");
+		printf("\n\n Telefonul gasit\n");
+		afisare(telefon);
+		if (telefon.producator != NULL) {
+			free(telefon.producator);
+			telefon.producator = NULL;
+		}
+
+		dezalocare(&telefoane, &nrTelefoane);
 		
 
 
