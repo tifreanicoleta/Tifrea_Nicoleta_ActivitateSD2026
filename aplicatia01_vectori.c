@@ -87,6 +87,21 @@ struct Telefon initializare(int id, int ram, const char* producator, float pret,
 		*nrElemente = 0;
 	}
 
+	void copiazaTelefoaneScumpe(struct Telefon* vector, char nrElemente, float pretMinim, struct Telefon** vectorNou, int* dimensiune) {
+		// determinam dimensiunea 
+		*dimensiune = 0;
+		for (int i = 0; i < nrElemente; i++) {
+			if (vector[i].pret >= pretMinim) {
+				(*dimensiune)++;
+			}
+		}// alocam spatiu
+
+		if ((*vectorNou) != NULL) {
+			free(*vectorNou);
+		}
+		*vectorNou = (struct Telefon*)malloc(sizeof(struct Telefon) * (*dimensiune));
+	}
+
 	int main() {
 		struct Telefon* telefoane = NULL;
 		int nrTelefoane = 3;
