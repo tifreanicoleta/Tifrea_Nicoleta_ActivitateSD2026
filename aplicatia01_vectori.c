@@ -46,7 +46,26 @@ struct Telefon initializare(int id, int ram, const char* producator, float pret,
 		}
 
 	}
+	
+	struct Telefon* copiazaPrimeleNElemente(struct Telefon * vector, int nrElemente, int nrElementeCopiate) {
+		struct Telefon* vectorNou = NULL;	
 
+		//alocam spatiu pentru vectorul nou
+		vectorNou = (struct Telefon*)malloc(sizeof(struct Telefon) * nrElementeCopiate);
+		//parcurgem vectorul de n elemente copiate
+
+		for (int i = 0; i < nrElementeCopiate; i++) {
+			vectorNou[i] = vector[i];
+			// facem deep copy pentru campurile alocate dinamic
+			// alocam spatiu pt producator
+			vectorNou[i].producator = (char*)malloc(strlen(vector[i].producator) + 1);
+			//facem copierea 
+			strcpy_s(vectorNou[i].producator, strlen(vector[i].producator) + 1, vector[i].producator);
+		} 
+
+		return vectorNou;
+		
+	}
 
 	int main() {
 		struct Telefon* telefoane = NULL;
@@ -59,5 +78,18 @@ struct Telefon initializare(int id, int ram, const char* producator, float pret,
 		telefoane[2] = initializare(3, 64, "Apple", 3999.99, 'X');
 
 		afisareVector(telefoane, nrTelefoane);
+
+		//testarea functiei de copiere a primelor n elemente din vector
+
+		printf("\n===========================================================\n");
+
+		struct Telefon* primeleTelefoane = NULL;
+		int nrPrimeleTelefoane = 1;
+		primeleTelefoane = copiazaPrimeleNElemente(telefoane, nrTelefoane, nrPrimeleTelefoane);
+		printf("\n\n Primele Telefoane: \n");
+		afisareVector(primeleTelefoane, nrPrimeleTelefoane);
+
+
+		return 0;
 
 	}
