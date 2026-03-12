@@ -67,6 +67,26 @@ struct Telefon initializare(int id, int ram, const char* producator, float pret,
 		
 	}
 
+	void dezalocare(struct Telefon** vector, int* nrElemente) {
+		// dezalocam elementele din vector si vectorul
+
+		// primim dublu pointer pentru vector si pointer pentru nrElemente pentru a putea modifica valorile din main
+
+		// parcurgem vectorul
+
+		for (int i=0; i<(*nrElemente); i++) {
+
+			// dezalocam campul producator
+
+			if ((*vector)[i].producator != NULL) {
+				free((*vector)[i].producator);
+			}
+		}
+		free(*vector);
+		*vector = NULL;
+		*nrElemente = 0;
+	}
+
 	int main() {
 		struct Telefon* telefoane = NULL;
 		int nrTelefoane = 3;
@@ -84,10 +104,18 @@ struct Telefon initializare(int id, int ram, const char* producator, float pret,
 		printf("\n===========================================================\n");
 
 		struct Telefon* primeleTelefoane = NULL;
-		int nrPrimeleTelefoane = 1;
+		int nrPrimeleTelefoane = 2;
 		primeleTelefoane = copiazaPrimeleNElemente(telefoane, nrTelefoane, nrPrimeleTelefoane);
 		printf("\n\n Primele Telefoane: \n");
 		afisareVector(primeleTelefoane, nrPrimeleTelefoane);
+
+		printf("\n===========================================================\n");
+
+		printf("Apelarea functiei de dezalocare a vectorului de telefoane: \n");
+		dezalocare(&primeleTelefoane, &nrPrimeleTelefoane);
+		afisareVector(primeleTelefoane, nrPrimeleTelefoane);
+		
+
 
 
 		return 0;
