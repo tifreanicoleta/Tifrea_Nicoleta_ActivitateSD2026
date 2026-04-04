@@ -62,10 +62,10 @@ Masina citireMasinaFisier(FILE* file) {
 	strcpy(m.numeSofer, aux);
 	m.serie = strtok(NULL, sep)[0];
 	return m;
-	
+
 
 }
 
 void main() {
-	
+
 }
