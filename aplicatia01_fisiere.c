@@ -44,7 +44,7 @@ void adaugaMasinaInVector(Masina** masini, int* nrMasini, Masina masinaNoua) {
 
 }
 
-Masina citireMasinaFisier(FILE* file) {
+Masina citireMasinaFisier(FILE** file) {
 	Masina m;
 	char buffer[100];
 	char sep[4] = ",;\n";
@@ -56,16 +56,47 @@ Masina citireMasinaFisier(FILE* file) {
 	aux = strtok(NULL, sep);
 	m.model = (char*)malloc(strlen(aux) + 1);
 	strcpy(m.model, aux);
-	char* aux;
 	aux = strtok(NULL, sep);
 	m.numeSofer = (char*)malloc(strlen(aux) + 1);
 	strcpy(m.numeSofer, aux);
 	m.serie = strtok(NULL, sep)[0];
 	return m;
 
-
 }
 
-void main() {
+Masina* citireVectorMasiniFisier(const char* numeFisier, int* nrMasiniCitite) {
+	FILE* file = fopen(numeFisier, "r");
+	Masina* masini = NULL;
+	(*nrMasiniCitite) = 0;
+	while (!feof) {
+		adaugaMasinaInVector(&masini, nrMasiniCitite, citireMasinaFisier(file));
+	}
+	fclose(file);
+	return masini;
+}
 
+void dezalocareVectorMasini(Masina** vector, int* nrMasini) {
+	for (int i = 0; i < *nrMasini; i++) {
+		if ((*vector)[i].model != NULL) {
+			free((*vector)[i].model);
+		}
+		if ((*vector)[i].numeSofer != NULL) {
+			free((*vector)[i].numeSofer);
+		}
+	}
+	free(*vector);
+	(*vector) = NULL;
+	(*nrMasini) = 0;
+}
+
+
+
+int main() {
+
+	int nrMasini = 0;
+	Masina* masini = citireVectorMasiniFisier("masini.txt", &nrMasini);
+	afisareVectorMasini(masini, nrMasini);
+
+	dezalocareVectorMasini(&masini, &nrMasini);
+	return 0;
 }
