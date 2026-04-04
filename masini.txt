@@ -1,0 +1,4 @@
+1,5,70000,Brabus,Teodorescu,B
+2,3,9800,Astra,Marinescu,X
+3,4,3500,Polo,Popesco,M
+4,5,4700,Toyota,Roata,K
